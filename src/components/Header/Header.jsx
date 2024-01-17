@@ -1,10 +1,9 @@
-
 import HeaderStyled from "./Header.styled"
 import NavLinkStyled from "./NavLink.styled"
 
 const Header = () => {
   return (
-    <HeaderStyled>
+      <HeaderStyled>
         <nav>
             <ul>
                 <li>

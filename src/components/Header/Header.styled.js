@@ -16,14 +16,8 @@ const HeaderStyled = styled('header')(() => {
                 fontSize: '42px',
                 fontWeight: '500',
                 textDecoration: 'none',
-
-                NavLink:{
-                    color:' #212121',
-                    '&.active':{
-                      color: '#dd1033',
-                    }
-                }   
-        }}
+        },
+    },
         }
 
 })

@@ -1,20 +1,20 @@
-import { Link } from "react-router-dom"
+import { Link,} from "react-router-dom"
+import ListStyled from "./MovieList.styled";
 
-const MovieList = ({trendingMovies}) => {
+
+const MovieList = ({movies, location}) => {
   return (
     <div>
-        <h1>Trending today</h1>
-        <ul>
-            {trendingMovies.map( ({id , title }) => (
+        <ListStyled>
+            {movies.map( ({id , title }) => (
                 <li key={id}>
-                    <Link to={`movies/${id}`}>
+                    <Link to={`movies/${id}`} state={{from:location}}>
                         {title}
                     </Link>
                 </li>
             ))}
-        </ul>
+        </ListStyled>
     </div>
   )
 }
-
 export default MovieList;

@@ -1,16 +1,41 @@
+import { BiSearchAlt2 } from "react-icons/bi";
+import FormStyled from "./FormStyled.styled";
+import ContainerForm from "./ContainerForm.styled";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-const SearchMovies = ({onSubmit, onChange, query}) => {
- 
+
+const SearchMovies = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setSearchParams({search: searchQuery})
+  };
+
+  const handleChange = ({target:{value}}) => {
+   setSearchQuery(value)
+   }
+
+   useEffect(() => {
+    !searchQuery && setSearchQuery(searchParams.get('search'))
+   },[searchParams,searchQuery]);
+
   return (
-    <form onSubmit={onSubmit}>
+    <ContainerForm>
+    <FormStyled onSubmit={handleSubmit}>
       <input 
-        name="query"
+        name="search"
         type="text" 
-        value={query}
+        value={searchQuery}
         placeholder="Search movies"
-        onChange={onChange}/>
-      <button type="submit">Search</button>
-    </form>
+        onChange={handleChange}/>
+      <button type="submit">
+      <BiSearchAlt2 size="20" />
+      </button>
+    </FormStyled>
+    </ContainerForm>
   )
 }
 

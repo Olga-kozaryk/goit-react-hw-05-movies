@@ -2,57 +2,46 @@ import ContainerPage from "components/ContainerPage.styled"
 import Loader from "components/Loader/Loader";
 import MovieList from "components/MovieList/MovieList";
 import SearchMovies from "components/SearchMovies/SearchMovies";
-import { useEffect, useState } from "react"
-import toast from "react-hot-toast";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react"
+import { useSearchParams } from "react-router-dom";
 import { fetchMoviesQuery } from "services/ApiMovies";
 
 
 const Movies = () => {
-  const [movies, setMovies] = useState([]);
+  const [moviesSearch, setMoviesSearch] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
-  const query = searchParams.get('query') ?? '';
-
-  useEffect(() => {
-    if(!query) return;
-    const getMovie = async () => {
-      setIsLoading(true);
+  const [error, setError] = useState('')
+  const [searchParams] = useSearchParams();
+ 
+  const getMovies = useCallback(
+    async (query) => {
       try {
-        const {results} = await fetchMoviesQuery(query);
-        if (results.length === 0) {
-          toast.dismiss();
-          toast.error('movie not found');
-        } else {
-          setMovies(results);
-        }
-    } catch (error){
-      toast.error(' Sorry, we could not fetch the movies. Please try again later.')
-    }
-    finally {
-      setIsLoading(false);
-    }}
-    getMovie();
-  },[query]);
+        setIsLoading(true)
+        setError('')
+        const response = await fetchMoviesQuery(query)
+        setMoviesSearch(response.movies)
+      } catch (error) {
+          setError(error.message)
+      }  finally {
+        setIsLoading(false);
+      }
+    },[]
+  )
 
-  const handleSubmit = e => e.preventDefault();
-  const handleChange = e => {
-    const searchQuery = e.target.value;
-    if (searchQuery === '') {
-      return setSearchParams({})
-    };
-    setSearchParams({query:searchQuery});
-  }
+  useEffect(()=> {
+    const query = searchParams.get('search')
+    getMovies(query)
+  },[getMovies, searchParams])
 
   return (
     <ContainerPage>
       <h1>Search Movie</h1>
+      <SearchMovies/>
 
-      <SearchMovies 
-        onSubmit={handleSubmit} 
-        onChange={handleChange}/>
-      { isLoading ? ( <Loader/> ) : ( <MovieList movies = {movies} location={location}/>) }
+     {isLoading && <Loader/>}
+     {error && <h1>{error}</h1>} 
+
+   {moviesSearch && <MovieList movies = {moviesSearch}/>}
     </ContainerPage>
   )
 }

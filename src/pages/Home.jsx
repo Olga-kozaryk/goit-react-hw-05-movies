@@ -32,9 +32,13 @@ useEffect(() => {
 return (
   <ContainerPage>
     <h1>Trending today</h1>
-  { isLoading ? ( <Loader/> ) : error ? (<p>
+  { isLoading && <Loader/>} 
+
+  {error && <p>
     Sorry, we could not fetch the trending movies. Please try again later.
-  </p>) : ( <MovieList movies = {trendingMovies} />) }
+  </p>} 
+
+   <MovieList movies = {trendingMovies} />
   </ContainerPage>
 )
 }

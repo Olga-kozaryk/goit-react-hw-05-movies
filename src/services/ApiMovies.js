@@ -6,7 +6,7 @@ export const fetchTrendingMovies = async () => {
    return data;
 };
 
-export const fetchMoviesQuery = async query => {
+export const fetchMoviesQuery = async (query) => {
   const {data} = await axios.get(
     `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
   );

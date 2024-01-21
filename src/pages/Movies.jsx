@@ -11,37 +11,54 @@ const Movies = () => {
   const [moviesSearch, setMoviesSearch] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('')
-  const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
  
   const getMovies = useCallback(
     async (query) => {
       try {
         setIsLoading(true)
         setError('')
-        const response = await fetchMoviesQuery(query)
-        setMoviesSearch(response.movies)
+        const {results} = await fetchMoviesQuery(query)
+        setMoviesSearch(results)
       } catch (error) {
-          setError(error.message)
+          setError(error.message);
+          setMoviesSearch([])
       }  finally {
         setIsLoading(false);
       }
     },[]
   )
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    setSearchParams({search: searchQuery})
+  };
+
+  const handleChange = e => {
+   setSearchQuery(e.target.value)
+   }
+
   useEffect(()=> {
-    const query = searchParams.get('search')
+    const query = searchParams.get('search') ?? ''
     getMovies(query)
   },[getMovies, searchParams])
 
   return (
     <ContainerPage>
       <h1>Search Movie</h1>
-      <SearchMovies/>
+      <SearchMovies 
+      OnSubmit = {handleSubmit}
+      OnChange = {handleChange}
+      valueSearch = {searchQuery}
+       />
 
      {isLoading && <Loader/>}
-     {error && <h1>{error}</h1>} 
+     {error && <p>
+    Sorry, we could not fetch the movies. Please try again later.
+  </p>}
 
-   {moviesSearch && <MovieList movies = {moviesSearch}/>}
+<MovieList movies = {moviesSearch}/>
     </ContainerPage>
   )
 }

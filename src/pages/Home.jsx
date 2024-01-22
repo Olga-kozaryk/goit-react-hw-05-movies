@@ -7,23 +7,13 @@ import { fetchTrendingMovies } from "services/ApiMovies";
 
 const Home = () => {
 const [trendingMovies, setTrendingMovies] = useState([]);
-const [isLoading, setIsLoading] = useState(true);
-const [error, setError] = useState(false);
 
 useEffect(() => {
  const getTrendingMovies = async () => {
-  try {
-    setError(false);
-    setIsLoading(true);
+ 
   const {results} = await fetchTrendingMovies();
   setTrendingMovies(results);
-}
-  catch (error) {
-    setError(true);
-  }
-   finally {
-    setIsLoading(false);
-  }
+
   };
 
  getTrendingMovies();
@@ -32,13 +22,12 @@ useEffect(() => {
 return (
   <ContainerPage>
     <h1>Trending today</h1>
-  { isLoading && <Loader/>} 
 
-  {error && <p>
-    Sorry, we could not fetch the trending movies. Please try again later.
-  </p>} 
-
-   <MovieList movies = {trendingMovies} />
+    {trendingMovies.length ?
+    (<MovieList movies = {trendingMovies} />) :
+(<p>
+  Sorry, we could not fetch the trending movies. Please try again later.
+</p>)} 
   </ContainerPage>
 )
 }

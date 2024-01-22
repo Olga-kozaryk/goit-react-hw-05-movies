@@ -11,7 +11,7 @@ export const fetchTrendingMovies = async () => {
    return data;
 };
 
-export const fetchMoviesQuery = async (query) => {
+export const fetchMoviesQuery = async query => {
   const {data} = await axios.get(
     `/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
   );
@@ -19,9 +19,7 @@ export const fetchMoviesQuery = async (query) => {
 }
 
 export const fetchMovieId = async movieId => {
-  const {data} = await axios.get(`/movie/${movieId}$?api_key=${API_KEY}`
-   
-  );
+  const {data} = await axios.get(`/movie/${movieId}?api_key=${API_KEY}&language=en-US`);
   return data;
 };
 

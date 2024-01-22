@@ -1,5 +1,5 @@
 import ContainerPage from "components/ContainerPage.styled";
-import Loader from "components/Loader/Loader";
+
 import MovieList from "components/MovieList/MovieList";
 import { useEffect, useState } from "react"
 import { fetchTrendingMovies } from "services/ApiMovies";

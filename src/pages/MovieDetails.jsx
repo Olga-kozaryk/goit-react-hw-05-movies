@@ -10,21 +10,21 @@ import { fetchMovieId } from "services/ApiMovies";
 
 const MovieDetails = () => {
   const {movieId} = useParams();
-  const [movie, setMovie] = useState({});
+  const [movieDetails, setMovieDetails] = useState({});
   const location = useLocation;
   const navigate = useNavigate();
 
   useEffect(() => {
-  const fetchMovie = async () => {
+  const getMovieDetails = async () => {
     try {
-      const movieData = await fetchMovieId(movieId);
-      setMovie(movieData)
+      const results = await fetchMovieId(movieId);
+      setMovieDetails(results)
     } catch (error) {
       console.log(error);
     }
   };
 
-  movieId && fetchMovie()
+  getMovieDetails()
 },[movieId]);
 
 const handleBack = () => {
@@ -32,22 +32,22 @@ const handleBack = () => {
 }
 
   return (
-    movie && (
+    movieDetails && (
     <ContainerPage>
     <BtnGoBack handleBack={handleBack}/>
     
-    <MovieCard movie={movie}/>
+    <MovieCard movie = {MovieDetails}/>
 
     <ContainerDetails>
         <h3>Additional information</h3>
         <ul>
           <li>
-            <Link to={'cast'} state={{ from: location?.state?.from ?? '/' }} >
+            <Link to={'cast'} >
             Cast
             </Link>
           </li>
           <li>
-            <Link to={'reviews'} state={{ from: location?.state?.from ?? '/' }} >
+            <Link to={'reviews'} >
             Reviews
             </Link>
           </li>

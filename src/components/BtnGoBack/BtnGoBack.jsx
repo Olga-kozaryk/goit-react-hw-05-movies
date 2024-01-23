@@ -1,13 +1,14 @@
 import { BsArrowLeftShort } from 'react-icons/bs'; 
 import BtnGoBackStyled from './BtnGoBack.styled';
+import { Link } from 'react-router-dom';
 
-const BtnGoBack = ({handleBack} ) => {
+const BtnGoBack = ({GoBack}) => {
   return (
-    <div style={{
+    <Link to={GoBack} style={{
         display: 'flex',
         padding: '20px 40px',
     }}> 
-    <BtnGoBackStyled onClick={handleBack} >
+    <BtnGoBackStyled >
     <BsArrowLeftShort
     style={{ 
         width: '25px',
@@ -15,7 +16,7 @@ const BtnGoBack = ({handleBack} ) => {
         display: 'inline-block' }}
             />
     Go back</BtnGoBackStyled>
-    </div>
+    </Link>
   )
 }
 

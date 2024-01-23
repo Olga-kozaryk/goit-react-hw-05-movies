@@ -18,10 +18,10 @@ const CastList = ({cast}) => {
                     alt={`${name} profile`}
                   />
                 )}
-                <div>
+                
                     <h2>{name}</h2>
                     <p>Character:{character}</p>
-                </div>
+                
 
 
             </li>))}

@@ -3,8 +3,8 @@ import ContainerPage from "components/ContainerPage.styled";
 import Loader from "components/Loader/Loader";
 import MovieCard from "components/MovieCard/MovieCard";
 import ContainerDetails from "components/MovieDetails.styled";
-import { Suspense, useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom"
+import { Suspense, useEffect, useRef, useState } from "react";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom"
 import { fetchMovieId } from "services/ApiMovies";
 
 
@@ -12,7 +12,7 @@ const MovieDetails = () => {
   const {movieId} = useParams();
   const [movieDetails, setMovieDetails] = useState({});
   const location = useLocation;
-  const navigate = useNavigate();
+
 
   useEffect(() => {
   const getMovieDetails = async () => {
@@ -27,16 +27,14 @@ const MovieDetails = () => {
   getMovieDetails()
 },[movieId]);
 
-const handleBack = () => {
-  navigate(location.state?.from ?? '/')
-}
+const handleBack = useRef(location.state?.from ?? '/');
 
   return (
-    movieDetails && (
+
     <ContainerPage>
-    <BtnGoBack handleBack={handleBack}/>
+    <BtnGoBack GoBack={handleBack.current}/>
     
-    <MovieCard movie = {MovieDetails}/>
+    <MovieCard movie = {movieDetails}/>
 
     <ContainerDetails>
         <h3>Additional information</h3>
@@ -59,7 +57,7 @@ const handleBack = () => {
       </Suspense>
     </ContainerPage>
     )
-  )
+
 }
 
 export default MovieDetails

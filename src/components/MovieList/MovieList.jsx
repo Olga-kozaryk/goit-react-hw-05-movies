@@ -3,13 +3,13 @@ import ListStyled from "./MovieList.styled";
 
 
 const MovieList = ({movies}) => {
-    const location = useLocation;
+    const location = useLocation();
   return (
     <div>
         <ListStyled>
             {movies.map( ({id , title }) => (
                 <li key={id}>
-                    <Link to={'/movies/' + id} state = {{ from: location?.from }}>
+                    <Link to={'/movies/' + id} state={{ from: location}}>
                         {title}
                     </Link>
                 </li>

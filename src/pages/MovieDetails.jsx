@@ -11,7 +11,7 @@ import { fetchMovieId } from "services/ApiMovies";
 const MovieDetails = () => {
   const {movieId} = useParams();
   const [movieDetails, setMovieDetails] = useState({});
-  const location = useLocation;
+  const location = useLocation();
 
 
   useEffect(() => {
